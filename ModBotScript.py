@@ -43,11 +43,16 @@ while(True):
     hashed = downloadandhashimagepost(imageposts)
 
     for post in hashed:
+        DownloadedFiles=False
         for imagehash in post["imagehashes"]:
             if imagehash in Bannedimages:
+                if not DownloadedFiles:
+                    downloadfiles(post)
+                    DownloadedFiles = True
                 session.get(post["deletelink"])
                 print("Deleted post #{}".format(post["postID"]))
                 log.writelines("Deleted post #{}\n".format(post["postID"]))
                 log.flush()
+    print("Finished cycle")
 
     time.sleep(RunInterval_seconds)

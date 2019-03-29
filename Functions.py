@@ -12,11 +12,19 @@ def LoadImageFromURL(url):
 def LoadImageFromDisk(fp):
     return Image.open(fp)
 
+def downloadfiles(post):
+    sources = post["imagesources"]
+    for i in range(len(sources)):
+        image = LoadImageFromURL(sources[i])
+        image.save(os.path.join("removedimages","{}_{}.jpeg".format(str(post["postID"]), str(i))), "JPEG")
+
+
 def downloadandhashimagepost(postlist):
     for post in postlist:
         yield {"board": post["board"],
                "postID": post["postID"],
                "deletelink": post["deletelink"],
+               "imagesources": post["imagesources"],
                "imagehashes": [imagehash.dhash(LoadImageFromURL(x)) for x in post["imagesources"]]
                }
 
