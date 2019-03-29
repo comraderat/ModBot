@@ -31,7 +31,7 @@ def generatewithnone(func, list):
 
 
 def DisectNewPostPage(page):
-    soup = BeautifulSoup(page)
+    soup = BeautifulSoup(page, features="html.parser")
     posts = soup.find_all(attrs={"class":"post-wrapper"})
     generator = generatewithnone(HandleImagePost, posts)
     nextlink = soup.findAll('a', href = True, text = 'Next 25 posts')[0]['href']
